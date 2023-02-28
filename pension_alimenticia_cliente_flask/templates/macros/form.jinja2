@@ -1,0 +1,58 @@
+{# un formulario que contiene un token CSRF y campos ocultos #}
+{%- macro form_tag(endpoint, fid='', css_class='', method='post', enctype="multipart/form-data") -%}
+    <form  enctype="{{ enctype }}" action="{{ url_for(endpoint, **kwargs) }}" method="{{ method }}" id="{{ fid }}" class="{{ css_class }}" role="form">
+        {{ form.hidden_tag() }}
+        {{ caller () }}
+    </form>
+{%- endmacro -%}
+
+{# errores de validacion si los hay #}
+{%- macro field_errors(f) -%}
+    {% if f.errors %}
+        <ul class="list-unstyled">
+            {% for error in f.errors %}
+                <li class="text-danger">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{%- endmacro -%}
+
+{# una etiqueta para un campo #}
+{%- macro field_label(f, css_class='form-label') -%}
+    <label for="{{ f.id }}" class="{{ css_class }}">{{ f.label.text }}</label>
+{%- endmacro -%}
+
+{# un campo del formulario #}
+{%- macro field(f, css_class='form-control') -%}
+    {{ f(class=css_class, **kwargs) }}
+{%- endmacro -%}
+
+{# un grupo contiene un label y un campo a excepcion del HiddenField y SubmitField #}
+{%- macro form_group(f, css_class='') -%}
+    {% if f.errors %}
+        {% set css_class = css_class + ' has-error ' + kwargs.pop('class', '') %}
+    {% endif %}
+    {% if f.type == 'HiddenField' %}
+        {{ field(f, **kwargs) }}
+        {{ caller () }}
+    {% elif f.type == 'BooleanField' %}
+        <div class="mb-3 form-check {{ css_class }}">
+            {{ field(f, css_class='form-check-input', **kwargs) }}
+            {{ field_label(f, css_class='form-check-label') }}
+            {{ field_errors(f) }}
+            {{ caller () }}
+        </div>
+    {% elif f.type == 'SubmitField' %}
+        <div class="mb-3 {{ css_class }}">
+            {{ field(f, css_class='btn btn-azul', **kwargs) }}
+            {{ caller () }}
+        </div>
+    {% else %}
+        <div class="mb-3 {{ css_class }}">
+            {{ field_label(f) }}
+            {{ field(f, **kwargs) }}
+            {{ field_errors(f) }}
+            {{ caller () }}
+        </div>
+    {% endif %}
+{%- endmacro -%}

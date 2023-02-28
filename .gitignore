@@ -1,0 +1,11 @@
+.bashrc
+.directory
+.env
+.DS_Store
+.~lock.*
+*.py[cod]
+__pycache__/
+/.venv/
+/venv/
+/app.yaml
+/requirements.txt

@@ -1,0 +1,38 @@
+{% extends 'layouts/base.jinja2' %}
+
+{% block template_head %}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block main %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  p-3 sombra fondo-header">
+        <img src="{{url_for('static', filename='img/ppa-pjecz.png')}}" style="width:300px" />
+        <div class="container-fluid justify-content-end">
+            <span class="navbar-text">
+                <p class="h2 float-end text-white">Pension Alimenticia</p><br>
+                <p class=" float-end text-white">Registro de solicitud para recibir pensión alimenticia mediante tarjeta de débito.</p>
+            </span>
+        </div>
+
+        
+    </nav>
+    <div class="container">
+        <div class="row">
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <div class="container-fluid footer p-2 mt-3 sombra fondo-footer">
+        <div class="row justify-content-md-center">
+            <div class="col-md-4 text-center">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a href="/aviso" class="nav-link link-footer">Aviso de Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block template_javascript %}
+{% endblock %}

@@ -1,0 +1,89 @@
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  min-height: 100%;
+  background-color: #efeff1;
+}
+
+.sombra {
+  box-shadow: 0px 5px 15px black;
+}
+
+.footer {
+  background-color: #fff;
+  color: #666;
+  bottom: 0;
+  position: fixed;
+
+}
+
+.link-footer {
+  color: #555;
+}
+
+.link-aviso {
+  display: inline-block;
+  color: #004360;
+  margin-left: -15px;
+}
+
+.tramite {
+  background-color: #004360;
+  color: #fff;
+}
+
+.observacion {
+  color: cornflowerblue;
+  font-style: italic;
+}
+
+.btn-azul {
+  background-color: #004360;
+  color: #fff;
+}
+
+.btn-azul:hover{
+  color:#fff;
+  font-weight: bold;
+}
+
+input[type=file]::file-selector-button {
+  border: 1px solid #023d43;
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: #004360;
+  transition: 1s;
+  color: #fff;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #81ecec;
+  border: 2px solid #00cec9;
+  color: #000 !important;
+}
+
+label{
+  font-size: .75em;
+  font-weight: bold;
+  margin-bottom: 0px !important;
+}
+
+.url-descarga{ 
+  color: #555;
+  text-decoration: none;
+}
+
+.url-descarga:hover{
+  font-weight: bold;
+  color: #555;
+}
+
+.fondo-header{
+  background-image: linear-gradient(90deg, #a5d9f4 0, #6cb4d8 50%, #004360 100%);
+}
+
+.fondo-footer {
+  background-image: linear-gradient(90deg, #a5d9f4 0, #6cb4d8 50%, #004360 100%);
+}
