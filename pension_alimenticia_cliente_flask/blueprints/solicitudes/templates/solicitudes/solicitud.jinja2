@@ -1,0 +1,134 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/form.jinja2' as f with context %}
+
+{% block title %}Ingresar datos personales{% endblock %}
+
+{% block content %}
+<div class="row justify-content-md-center m-5">
+    <div class="col-12 col-md-10">
+        <div class="card mb-5">
+            <img src="{{url_for('static', filename='img/pension-alimenticia.jpg')}}" class="card-img-top">
+            <div class="card-body">
+
+                <h5>Registre sus datos para la solicitud </h5>
+                {% call f.form_tag('solicitudes.ingresar', fid='solicitudes_ingresar') %}
+                <div class="row">
+                    <div class="col-md-4">
+                        {% call f.form_group(form.nombres) %}{% endcall %}
+                    </div>
+                    <div class="col-md-4">
+                        {% call f.form_group(form.apellido_primero) %}{% endcall %}
+                    </div>
+                    <div class="col-md-4">
+                        {% call f.form_group(form.apellido_segundo) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% call f.form_group(form.email) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {% call f.form_group(form.curp) %}{% endcall %}
+                    </div>
+                    <div class="col-md-4">
+                        {% call f.form_group(form.telefono) %}{% endcall %}
+                    </div>
+                    <div class="col-md-4">
+                        {% call f.form_group(form.compania) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% call f.form_group(form.distrito) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        {% call f.form_group(form.juzgado) %}{% endcall %}
+                    </div>
+                    <div class="col-md-2">
+                        {% call f.form_group(form.expediente) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {% call f.form_group(form.colonia) %}{% endcall %}
+                    </div>
+                    <div class="col-md-4">
+                        {% call f.form_group(form.calle) %}{% endcall %}
+                    </div>
+                    <div class="col-md-2">
+                        {% call f.form_group(form.numero) %}{% endcall %}
+                    </div>
+                    <div class="col-md-2">
+                        {% call f.form_group(form.codigo) %}{% endcall %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% call f.form_group(form.ine) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% call f.form_group(form.comprobante) %}{% endcall %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% call f.form_group(form.autorizacion) %}{% endcall %}
+                        <a href="https://storage.googleapis.com/pjecz-gob-mx/Tr%C3%A1mites%20y%20Servicios/17%20Constancia%203%20de%203%20contra%20la%20Violencia%20de%20G%C3%A9nero/Acuerdo%20constancias%203%20de%203.pdf"
+                            tarjet="_blank" class="url-descarga">
+                            <img src="{{url_for('static', filename='img/ppa-download.png')}}" style="max-width: 25px;">
+                            Descargar Formato de Autorización
+                        </a>
+                    </div>
+                </div>
+                <br>
+                {% call f.form_group(form.aceptar) %}{% endcall %}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        {% call f.form_group(form.registrar) %}{% endcall %}
+                    </div>
+                </div>
+
+                {% endcall %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_javascript %}
+<!-- reCaptcha Integration -->
+<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
+<script>
+    function obtenerJuzgados() {
+
+        $("#juzgado").empty();
+        $("#juzgado").append('<option value="" selected>Seleccione un Juzgado</option>');
+        var distrito_seleccionado = $("#distrito option:selected").text(); 
+        
+        $.ajax({
+            url: "{{api_base_url}}/autoridades"
+        }).then(function (data) {
+            for (let i = 0; i < data.result.items.length; i++){
+                var distrito_de_juzgado = data.result.items[i].distrito_nombre;
+
+                if( distrito_seleccionado ==  distrito_de_juzgado  ){
+                    var juzgado =  data.result.items[i].descripcion;
+                    if( juzgado.search('FAMILIAR')>=0  ){
+                        $("#juzgado").append('<option value="' + data.result.items[i].clave + '" >' +  juzgado + '</option>');
+                    }
+                }
+            }
+        });
+    
+
+    }
+</script>
+{% endblock %}

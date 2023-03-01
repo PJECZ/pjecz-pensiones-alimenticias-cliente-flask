@@ -1,0 +1,34 @@
+{% extends "layouts/app.jinja2" %}
+
+{% block title %}Solicitud de registro a Pensión Alimenticia{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-md-center m-5">
+        <div class="col-md-8">
+            <div class="card mb-5">
+                <div class="card-header text-center" style="background-color:#FFFFFF">
+                    <img class="" style="max-height: 200px ;" src="{{url_for('static', filename='img/ppa-fallido.gif')}}" alt="Error al procesar la solicitud">
+                </div>
+                <div class="card-body">
+                    <h4>
+                        Ha surgido un error al procesar su solicitud.
+                    </h4>
+                    <br>
+                    <p class="lead mb-4">
+                        <b>{{ message }}.</b><br><br>
+                        Revise que su información registrada sea correcta y que sus archivos esten en el formato requerido. 
+                    </p>
+                    <p class="lead mb-4">
+                        Gracias por usar el Portal de registro para Pensión Alimenticia.
+                    </p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        <a href="../../solicitud"><button type="button" class="btn btn-azul  px-4">Ir al registro</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_javascript %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layouts/app.jinja2" %}
+
+{% block title %}Error 404{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card mt-5 p-5">
+                <img src="{{url_for('static', filename='img/ppa-pjecz.png')}}" class="card-img-top">
+                <div class="card-body">
+                        <hr>
+                        <h1 class="display-5 fw-bold mb-4">Error 404</h1>
+                        <p class="lead mb-4"><strong>Página no encontrada.</strong></p>
+                        <p class="lead mb-4">{{ error }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_javascript %}
+{% endblock %}
