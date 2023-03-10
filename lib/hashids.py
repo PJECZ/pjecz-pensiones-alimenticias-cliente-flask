@@ -24,9 +24,9 @@ def descifrar_id(un_id_hasheado: str) -> Any:
             return solicitud_id[0]
     return None
 
-def decrypt_id(un_id_hasheado: str) -> Any:
-    result = re.match("[0-9a-zA-Z]{8,16}", un_id_hasheado)
-    solicitud_id = hashids.decode(un_id_hasheado)
-    if len(solicitud_id) == 1:
-        return  solicitud_id[0]
-    
+
+# def decrypt_id(un_id_hasheado: str) -> Any:
+# result = re.match("[0-9a-zA-Z]{8,16}", un_id_hasheado)
+# solicitud_id = hashids.decode(un_id_hasheado)
+# if len(solicitud_id) == 1:
+#     return  solicitud_id[0]
