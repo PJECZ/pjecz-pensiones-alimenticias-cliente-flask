@@ -9,7 +9,6 @@
         <div class="card mb-5">
             <img src="{{url_for('static', filename='img/pension-alimenticia.jpg')}}" class="card-img-top">
             <div class="card-body">
-
                 <h5>Registre sus datos para la solicitud </h5>
                 {% call f.form_tag('solicitudes.ingresar', fid='solicitudes_ingresar') %}
                 <div class="row">
@@ -66,7 +65,6 @@
                         {% call f.form_group(form.codigo) %}{% endcall %}
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-12">
                         {% call f.form_group(form.ine) %}{% endcall %}
@@ -94,7 +92,6 @@
                         {% call f.form_group(form.registrar) %}{% endcall %}
                     </div>
                 </div>
-
                 {% endcall %}
             </div>
         </div>
@@ -105,20 +102,17 @@
 {% block custom_javascript %}
 <!-- reCaptcha Integration -->
 <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-
+<!-- Actualizar juzgados al elegir un distrito -->
 <script>
     function obtenerJuzgados() {
-
         $("#juzgado").empty();
         $("#juzgado").append('<option value="" selected>Seleccione un Juzgado</option>');
-        var distrito_seleccionado = $("#distrito option:selected").text(); 
-        
+        var distrito_seleccionado = $("#distrito option:selected").text();
         $.ajax({
             url: "{{api_base_url}}/autoridades"
         }).then(function (data) {
             for (let i = 0; i < data.result.items.length; i++){
                 var distrito_de_juzgado = data.result.items[i].distrito_nombre;
-
                 if( distrito_seleccionado ==  distrito_de_juzgado  ){
                     var juzgado =  data.result.items[i].descripcion;
                     if( juzgado.search('FAMILIAR')>=0  ){
@@ -127,8 +121,6 @@
                 }
             }
         });
-    
-
     }
 </script>
 {% endblock %}
