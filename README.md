@@ -47,6 +47,7 @@ Crear archivo `.bashrc` que arranque el entorno virtual y cargue las variables
         export $(grep -v '^#' .env | xargs)
         echo "   API_BASE_URL: ${API_BASE_URL}"
         echo "   API_TIMEOUT: ${API_TIMEOUT}"
+        echo "   BASE_URL: ${BASE_URL}"
         echo "   FLASK_APP: ${FLASK_APP}"
         echo "   FLASK_DEBUG: ${FLASK_DEBUG}"
         echo "   RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}"

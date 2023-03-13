@@ -1,18 +1,31 @@
 """
 Solicitudes, formularios
 """
+from flask import abort
 from flask_wtf import FlaskForm
 from flask_wtf.recaptcha import RecaptchaField
+import requests
 from wtforms import BooleanField, EmailField, HiddenField, SelectField, StringField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length
+
 from config.settings import API_BASE_URL, API_TIMEOUT
-from lib.hashids import cifrar_id, descifrar_id, decrypt_id
+from lib.hashids import descifrar_id
 
-import requests
 
-class IngresarForm(FlaskForm):
-    """Formulario para ingresar datos personales"""
+def companias_telefonicas():
+    """Listado para el select de compañías telefónicas"""
+    return [
+        ("", "Selecciona una compañia"),
+        ("Telcel", "Telcel"),
+        ("Movistar", "Movistar"),
+        ("UNEFON", "UNEFON"),
+        ("IUSACELL", "IUSACELL"),
+        ("AT&T", "AT&T"),
+    ]
 
+
+def distritos():
+    """Listado para el select de distritos"""
     try:
         respuesta = requests.get(
             f"{API_BASE_URL}/distritos",
@@ -28,14 +41,17 @@ class IngresarForm(FlaskForm):
     except requests.exceptions.RequestException as error:
         abort(500, "Error desconocido con la API Distritos. " + str(error))
     datos = respuesta.json()
-
-    # Seleccionar unicamente Distritos de la respuesta de la API
-    items_distritos  = datos['result']['items']
+    items_distritos = datos["result"]["items"]
     catalogo = []
     for item in items_distritos:
-        if not item['nombre'].find("DISTRITO"):
-            catalogo.append({'id_hasheado' : item['id_hasheado'], 'nombre' : item['nombre'] })
-    
+        if not item["nombre"].find("DISTRITO"):
+            catalogo.append({"id_hasheado": item["id_hasheado"], "nombre": item["nombre"]})
+    return [("", "Selecciona un Distrito")] + [(descifrar_id(key["id_hasheado"]), key["nombre"]) for key in catalogo]
+
+
+class IngresarForm(FlaskForm):
+    """Formulario para ingresar datos personales"""
+
     nombres = StringField(
         "Nombres",
         default="Carlos Gabriel",
@@ -91,19 +107,19 @@ class IngresarForm(FlaskForm):
     compania = SelectField(
         "Compañia telefónica",
         validators=[DataRequired()],
-        choices = [ ("","Selecciona una compañia") , ("Telcel","Telcel") , ("Movistar","Movistar") , ("UNEFON","UNEFON") , ("IUSACELL","IUSACELL"), ("AT&T","AT&T") ],
+        choices=companias_telefonicas(),
     )
     distrito = SelectField(
         "Distrito Judicial",
         validators=[DataRequired()],
-        choices = [ ("","Selecciona un Distrito")] + [(descifrar_id(key['id_hasheado']), key['nombre']) for key in catalogo ],
-        render_kw={"onchange":"obtenerJuzgados()"},
+        choices=distritos(),
+        render_kw={"onchange": "obtenerJuzgados()"},
         validate_choice=False,
     )
     juzgado = SelectField(
         "Juzgado",
         validators=[DataRequired()],
-        choices = [ ("","Selecciona un Juzgado") ],
+        choices=[("", "Selecciona un Juzgado")],
         validate_choice=False,
     )
     expediente = StringField(
