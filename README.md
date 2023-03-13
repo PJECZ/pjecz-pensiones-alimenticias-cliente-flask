@@ -14,7 +14,7 @@ Crear archivo `.env` con
     BASE_URL=http://localhost:5000
 
     # Flask
-    FLASK_APP=pension-alimenticia-cliente-flask.app
+    FLASK_APP=pensiones_alimenticias_cliente_flask.app
     FLASK_DEBUG=1
 
     # Salt sirve para cifrar el ID con HashID
