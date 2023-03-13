@@ -1,7 +1,7 @@
 """
 Google Cloud App Engine toma main.py
 """
-from pension_alimenticia_cliente_flask import app
+from pensiones_alimenticias_cliente_flask import app
 
 app = app.create_app()
 
