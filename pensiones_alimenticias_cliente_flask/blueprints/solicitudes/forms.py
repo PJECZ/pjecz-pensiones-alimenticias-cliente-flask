@@ -95,12 +95,12 @@ class IngresarForm(FlaskForm):
         validators=[DataRequired(), Length(min=10, max=50)],
     )
     numero = StringField(
-        "Numero",
+        "Número",
         default="",
         validators=[DataRequired(), Length(min=2, max=15)],
     )
     codigo = StringField(
-        "Numero",
+        "Código postal",
         default="",
         validators=[DataRequired(), Length(min=5, max=5)],
     )
@@ -126,7 +126,7 @@ class IngresarForm(FlaskForm):
         render_kw={"placeholder": "Expediente"},
     )
     ine = FileField(
-        "Credencial de elector",
+        "Identificación oficial",
         validators=[DataRequired()],
         render_kw={"placeholder": "Seleccione un archivo PDF con la INE por ambos lados", "accept": "application/pdf"},
     )

@@ -18,6 +18,9 @@ def ingresar():
     """Ingresar solicitud"""
     form = IngresarForm()
 
+    # Alimentar las opciones para el select de distritos
+    form.distrito.choices = distritos()
+
     # Si viene el formulario
     if form.validate_on_submit():
         # Solicitar a la API un nuevo registro
@@ -136,9 +139,6 @@ def ingresar():
 
         # Redireccionar a la página de resultados
         return redirect(url_for("resultados.registrado", folio="F-" + str(descifrar_id(datos["id_hasheado"])).zfill(5)))
-
-    # Alimentar las opciones para el select de distritos
-    form.distrito.choices = distritos()
 
     # Mostrar el formulario, se manda API_BASE_URL porque lo necesita el JS del formulario
     return render_template(
