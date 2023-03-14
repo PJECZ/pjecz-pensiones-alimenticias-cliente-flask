@@ -5,7 +5,7 @@ from flask import abort
 from flask_wtf import FlaskForm
 from flask_wtf.recaptcha import RecaptchaField
 import requests
-from wtforms import BooleanField, EmailField, HiddenField, SelectField, StringField, SubmitField, FileField
+from wtforms import BooleanField, EmailField, SelectField, StringField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length
 
 from config.settings import API_BASE_URL, API_TIMEOUT
@@ -140,10 +140,10 @@ class IngresarForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"placeholder": "Autorización firmada en archivo PDF", "accept": "application/pdf"},
     )
-    # recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField()
     aceptar = BooleanField(
         "He leído y acepto el <a href='/aviso' class='nav-link link-aviso'>Aviso de Privacidad</a>",
         validators=[DataRequired()],
-        default="checked",
+        default=False,
     )
     registrar = SubmitField("Registrar")
