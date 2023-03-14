@@ -106,20 +106,18 @@ class IngresarForm(FlaskForm):
     )
     compania = SelectField(
         "Compañia telefónica",
-        validators=[DataRequired()],
         choices=companias_telefonicas(),
+        validators=[DataRequired()],
     )
     distrito = SelectField(
         "Distrito Judicial",
-        validators=[DataRequired()],
-        choices=distritos(),
         render_kw={"onchange": "obtenerJuzgados()"},
         validate_choice=False,
     )
     juzgado = SelectField(
         "Juzgado",
-        validators=[DataRequired()],
         choices=[("", "Selecciona un Juzgado")],
+        validators=[DataRequired()],
         validate_choice=False,
     )
     expediente = StringField(
