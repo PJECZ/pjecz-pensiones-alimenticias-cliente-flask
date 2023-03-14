@@ -1,19 +1,20 @@
 # pjecz-pensiones-cliente-flask
+
 Front-end para el registro de solicitud de tarjetas de debito para pensiones alimenticias hecho con Flask.
 
 ## Configurar
 
 Crear archivo `.env` con
 
-    # Citas cliente API:
-    API_BASE_URL=http://localhost:7086/v3
+    # Citas cliente API
+    API_BASE_URL=http://127.0.0.1:8005/v3
     API_TIMEOUT=12
 
     # Base URL
     BASE_URL=http://localhost:5000
 
     # Flask
-    FLASK_APP=pension-alimenticia-cliente-flask.app
+    FLASK_APP=pensiones_alimenticias_cliente_flask.app
     FLASK_DEBUG=1
 
     # Salt sirve para cifrar el ID con HashID
@@ -108,4 +109,30 @@ Ejecutar Flask con el alias arrancar
     . .bashrc
     arrancar
 
+## Google Cloud deployment
 
+Crear el archivo `app.yaml` con las variables para producción
+
+    runtime: python310
+    instance_class: F1
+    service: pensiones-alimenticias
+    env_variables:
+      API_BASE_URL: "https://citas-api-oauth2.justiciadigital.gob.mx/v3"
+      API_TIMEOUT: 24
+      BASE_URL: "https://pensiones-alimenticias.justiciadigital.gob.mx"
+      FLASK_APP: pensiones_alimenticias_cliente_flask/app.py
+      FLASK_DEBUG: 0
+      SALT: XXXXXXXXXXXXXXXXXXXXXXXX
+      SECRET_KEY: XXXXXXXXXXXXXXXXXXXXXXXX
+      RECAPTCHA_PUBLIC_KEY: "XXXXXXXXXXXXXXXXXXXXXXXX"
+      RECAPTCHA_PRIVATE_KEY: "XXXXXXXXXXXXXXXXXXXXXXXX"
+    vpc_access_connector:
+      name: projects/justicia-digital-gob-mx/locations/us-west2/connectors/cupido
+
+Crear el archivo `requirements.txt`
+
+    poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+Y subir a Google Cloud con
+
+    gcloud app deploy

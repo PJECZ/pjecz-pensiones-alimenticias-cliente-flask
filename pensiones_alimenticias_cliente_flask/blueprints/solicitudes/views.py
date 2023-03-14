@@ -8,15 +8,18 @@ from config.settings import API_BASE_URL, API_TIMEOUT
 from lib.safe_string import safe_email, safe_string
 from lib.hashids import descifrar_id
 
-from .forms import IngresarForm
+from .forms import IngresarForm, distritos
 
 solicitudes = Blueprint("solicitudes", __name__, template_folder="templates")
 
 
 @solicitudes.route("/solicitud", methods=["GET", "POST"])
 def ingresar():
-    """Ingresar datos personales"""
+    """Ingresar solicitud"""
     form = IngresarForm()
+
+    # Alimentar las opciones para el select de distritos
+    form.distrito.choices = distritos()
 
     # Si viene el formulario
     if form.validate_on_submit():
@@ -44,22 +47,22 @@ def ingresar():
             )
             respuesta.raise_for_status()
         except requests.exceptions.ConnectionError as error:
-            abort(500, "No se pudo conectar con la API Pension Alimenticia. " + str(error))
+            abort(500, "No se pudo conectar con la API: " + str(error))
         except requests.exceptions.Timeout as error:
-            abort(500, "Tiempo de espera agotado al conectar con la API Pension Alimenticia. " + str(error))
+            abort(500, "Tiempo de espera agotado al conectar con la API: " + str(error))
         except requests.exceptions.HTTPError as error:
-            abort(500, "Error HTTP porque la API de Pension Alimenticia arrojó un problema: " + str(error))
+            abort(500, "Error HTTP porque la API arrojó un problema: " + str(error))
         except requests.exceptions.RequestException as error:
-            abort(500, "Error desconocido con la API Pension Alimenticia. " + str(error))
+            abort(500, "Error desconocido con la API: " + str(error))
         datos = respuesta.json()
 
         # Verificar que haya tenido exito
         if not "success" in datos:
             abort(400, "No se logro la comunicacion con la API.")
-        if datos["success"] == False:
+        if datos["success"] is False:
             return redirect(url_for("resultados.fallido", message=datos["message"]))
 
-        # Enviar a la API el documento INE
+        # Enviar a la API la identificacion oficial
         archivo_ine = request.files["ine"]
         try:
             respuesta = requests.post(
@@ -69,13 +72,13 @@ def ingresar():
             )
             respuesta.raise_for_status()
         except requests.exceptions.ConnectionError as error:
-            abort(500, "No se pudo conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "No se pudo conectar con la API: " + str(error))
         except requests.exceptions.Timeout as error:
-            abort(500, "Tiempo de espera agotado al conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Tiempo de espera agotado al conectar con la API: " + str(error))
         except requests.exceptions.HTTPError as error:
-            abort(500, "Error HTTP porque la API de Pago de Pension Alimenticia arrojó un problema: " + str(error))
+            abort(500, "Error HTTP porque la API de arrojó un problema: " + str(error))
         except requests.exceptions.RequestException as error:
-            abort(500, "Error desconocido con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Error desconocido con la API: " + str(error))
         datos_ine = respuesta.json()
 
         # Verificar que haya tenido exito
@@ -94,22 +97,22 @@ def ingresar():
             )
             respuesta.raise_for_status()
         except requests.exceptions.ConnectionError as error:
-            abort(500, "No se pudo conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "No se pudo conectar con la API: " + str(error))
         except requests.exceptions.Timeout as error:
-            abort(500, "Tiempo de espera agotado al conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Tiempo de espera agotado al conectar con la API: " + str(error))
         except requests.exceptions.HTTPError as error:
-            abort(500, "Error HTTP porque la API de Pago de Pension Alimenticia arrojó un problema: " + str(error))
+            abort(500, "Error HTTP porque la API de arrojó un problema: " + str(error))
         except requests.exceptions.RequestException as error:
-            abort(500, "Error desconocido con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Error desconocido con la API: " + str(error))
         datos_comprobante = respuesta.json()
 
         # Verificar que haya tenido exito
         if not "success" in datos_comprobante:
             abort(400, "No se logro la comunicacion con la API.")
-        if datos["success"] == False:
+        if datos["success"] is False:
             return redirect(url_for("resultados.fallido", message=datos_comprobante["message"]))
 
-        # Enviar a la API el documento de autorizacion
+        # Enviar a la API la autorizacion
         archivo_autorizacion = request.files["autorizacion"]
         try:
             respuesta = requests.post(
@@ -119,19 +122,19 @@ def ingresar():
             )
             respuesta.raise_for_status()
         except requests.exceptions.ConnectionError as error:
-            abort(500, "No se pudo conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "No se pudo conectar con la API: " + str(error))
         except requests.exceptions.Timeout as error:
-            abort(500, "Tiempo de espera agotado al conectar con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Tiempo de espera agotado al conectar con la API: " + str(error))
         except requests.exceptions.HTTPError as error:
-            abort(500, "Error HTTP porque la API de Pago de Pension Alimenticia arrojó un problema: " + str(error))
+            abort(500, "Error HTTP porque la API arrojó un problema: " + str(error))
         except requests.exceptions.RequestException as error:
-            abort(500, "Error desconocido con la API Pago de Pension Alimenticia. " + str(error))
+            abort(500, "Error desconocido con la API: " + str(error))
         datos_autorizacion = respuesta.json()
 
         # Verificar que haya tenido exito
         if not "success" in datos_autorizacion:
             abort(400, "No se logro la comunicacion con la API.")
-        if datos["success"] == False:
+        if datos["success"] is False:
             return redirect(url_for("resultados.fallido", message=datos_autorizacion["message"]))
 
         # Redireccionar a la página de resultados

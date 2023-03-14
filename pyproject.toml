@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pension-alimenticia-cliente-flask"
-version = "0.1.0"
+version = "1.0.0"
 description = "Registro de Solicitud de alta para pago de Pensión Alimenticia"
 authors = ["Guillermo Valdes <guillermo.valdes@pjecz.gob.mx>"]
 
